@@ -1,0 +1,14 @@
+[package]
+name = "passwd-manager"
+version = "0.1.0"
+edition = "2024"
+description = "Minimal, portable CLI password manager with AES-256-GCM encryption"
+authors = ["jeffrey"]
+license = "MIT"
+
+[dependencies]
+aes-gcm = "0.10"
+rand = "0.8"
+base64 = "0.22"
+sha2 = "0.10"
+rpassword = "7"
