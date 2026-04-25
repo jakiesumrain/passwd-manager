@@ -29,6 +29,8 @@ fn print_help(vault_display: &str, description: &str) {
     println!();
     println!("Use a list number (from 'list') in place of a name —");
     println!("e.g. 'retrieve 1' instead of 'retrieve example.com'.");
+    println!("Use double quotes for arguments with spaces,");
+    println!("e.g. encrypt \"example.com (work)\" \"my pass phrase\".");
 }
 
 fn resolve_place<'a>(entries: &'a [VaultEntry], arg: &'a str) -> &'a str {
@@ -315,6 +317,22 @@ mod tests {
             VaultEntry { place: "alpha.com".into(), ciphertext: vec![] },
         ];
         assert_eq!(resolve_place(&entries, "not-a-number"), "not-a-number");
+    }
+
+    #[test]
+    fn tokenize_password_with_spaces() {
+        assert_eq!(
+            tokenize(r#"encrypt example.com "my secret pass phrase""#),
+            vec!["encrypt", "example.com", "my secret pass phrase"]
+        );
+    }
+
+    #[test]
+    fn tokenize_place_and_password_both_quoted() {
+        assert_eq!(
+            tokenize(r#"encrypt "my site (work)" "my pass""#),
+            vec!["encrypt", "my site (work)", "my pass"]
+        );
     }
 
     #[test]
